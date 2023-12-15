@@ -21,6 +21,20 @@ const Movie = (props) => {
       })
   }, [id]);
 
+  const handleDeleteClick = (e) => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:9000/api/movies/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        setMovie(res.data);
+        navigate(`/movies`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (<div className="modal-page col">
     <div className="modal-dialog">
       <div className="modal-content">
@@ -32,27 +46,52 @@ const Movie = (props) => {
 
             <section className="movie-details">
               <div>
-                <label>Title: <strong>{movie.title}</strong></label>
+                <label>
+                  Title: <strong>{movie.title}</strong>
+                </label>
               </div>
               <div>
-                <label>Director: <strong>{movie.director}</strong></label>
+                <label>
+                  Director: <strong>{movie.director}</strong>
+                </label>
               </div>
               <div>
-                <label>Genre: <strong>{movie.genre}</strong></label>
+                <label>
+                  Genre: <strong>{movie.genre}</strong>
+                </label>
               </div>
               <div>
-                <label>Metascore: <strong>{movie.metascore}</strong></label>
+                <label>
+                  Metascore: <strong>{movie.metascore}</strong>
+                </label>
               </div>
               <div>
-                <label>Description:</label>
-                <p><strong>{movie.description}</strong></p>
+                <label>
+                  Description:
+                </label>
+                <p>
+                  <strong>{movie.description}</strong>
+                </p>
               </div>
             </section>
 
             <section>
-              <span className="m-2 btn btn-dark">Favorite</span>
-              <Link to={`/movies/edit/${movie.id}`} className="m-2 btn btn-success">Edit</Link>
-              <span className="delete"><input type="button" className="m-2 btn btn-danger" value="Delete" /></span>
+              <span className="m-2 btn btn-dark">
+                Favorite
+              </span>
+              <Link 
+                 to={`/movies/edit/${movie.id}`}
+                 className="m-2 btn btn-success"
+                 >Edit
+              </Link>
+              <span className="delete">
+                <input 
+                   type="button" 
+                   className="m-2 btn btn-danger" 
+                   value="Delete" 
+                   onClick={handleDeleteClick} 
+                   />
+                </span>
             </section>
           </div>
         </div>
